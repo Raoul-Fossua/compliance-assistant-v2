@@ -1,0 +1,15 @@
+python-dotenv
+
+streamlit
+
+langchain
+langchain-community
+langchain-openai
+langchain-text-splitters
+
+chromadb
+openai
+
+tavily-python
+requests
+pypdf
