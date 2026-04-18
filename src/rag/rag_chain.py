@@ -1,68 +1,112 @@
+# src/rag/rag_chain.py 
+
+import os
+import re
+from typing import List, Dict, Any, Optional
+from dataclasses import dataclass
+import logging
+
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from transformers import pipeline
+from langchain_core.documents import Document
 
-DB_DIR = "./chroma_db"
+from rag.ingest_comlex import ComplianceVectorStore, ArticleIndexer
 
-# Modèle HuggingFace pour générer la réponse (LLM local via HF Hub)
-# La première exécution téléchargera le modèle.
-llm = pipeline(
-    "text2text-generation",
-    model="google/flan-t5-base"
-)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+DB_DIR = os.environ.get("COMPLIANCE_VECTOR_DB", "./chroma_db")
 
 
-def get_vectorstore():
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
-    vectordb = Chroma(
-        persist_directory=DB_DIR,
-        embedding_function=embeddings,
-    )
-    return vectordb
+@dataclass
+class RAGResponse:
+    answer: str
+    sources: List[Dict[str, Any]]
+    confidence: float
+    article_ids: List[str]
+    retrieval_time_ms: float
 
 
-def answer_with_rag(question: str, k: int = 4):
-    """
-    Récupère des extraits pertinents dans les PDF juridiques (Chroma + HF embeddings),
-    puis demande au modèle HuggingFace de synthétiser une réponse à partir du contexte.
-    """
-    vectordb = get_vectorstore()
-    retriever = vectordb.as_retriever(search_kwargs={"k": k})
-
-    try:
-        docs = retriever.invoke(question)
-    except Exception as e:
-        print(f"[ERROR] Retrieval failed: {e}")
-        docs = []
-
-    if not docs:
-        return (
-            "Je n'ai trouvé aucun extrait pertinent dans les textes de loi fournis.",
-            []
+class ComplianceRAGChain:
+    def __init__(self):
+        logger.info("Initialisation de la chaîne RAG")
+        self.vstore = ComplianceVectorStore()
+        try:
+            self.vectorstore = self.vstore.load()
+            self.article_indexer = self.vstore.article_indexer
+        except Exception as e:
+            logger.warning(f"Erreur: {e}")
+            self.vectorstore = None
+            self.article_indexer = ArticleIndexer()
+    
+    def answer(self, question: str, k: int = 5) -> RAGResponse:
+        import time
+        start_time = time.time()
+        
+        # Vérifier citation directe
+        citation = self._extract_citation(question)
+        if citation:
+            article = self.article_indexer.resolve(citation)
+            if article:
+                return RAGResponse(
+                    answer=f"**Article {citation}**\n\n{article.content}",
+                    sources=[{"article_id": citation, "content": article.content[:500]}],
+                    confidence=1.0,
+                    article_ids=[citation],
+                    retrieval_time_ms=(time.time() - start_time) * 1000
+                )
+        
+        # Recherche vectorielle
+        if not self.vectorstore:
+            return RAGResponse(
+                answer="Le système RAG n'est pas initialisé.",
+                sources=[], confidence=0.0, article_ids=[],
+                retrieval_time_ms=(time.time() - start_time) * 1000
+            )
+        
+        docs = self.vectorstore.similarity_search(question, k=k)
+        
+        if not docs:
+            return RAGResponse(
+                answer="Aucun article pertinent trouvé.",
+                sources=[], confidence=0.0, article_ids=[],
+                retrieval_time_ms=(time.time() - start_time) * 1000
+            )
+        
+        # Construction réponse
+        answer_parts = ["Voici les informations trouvées dans le Code de commerce:\n"]
+        article_ids = []
+        
+        for i, doc in enumerate(docs[:3], 1):
+            article_id = doc.metadata.get("article_id", "Inconnu")
+            content = doc.page_content[:600]
+            answer_parts.append(f"**{i}. Article {article_id}**\n{content}\n")
+            if article_id != "Inconnu":
+                article_ids.append(article_id)
+        
+        return RAGResponse(
+            answer="\n".join(answer_parts),
+            sources=[{"article_id": aid} for aid in article_ids],
+            confidence=0.8,
+            article_ids=article_ids,
+            retrieval_time_ms=(time.time() - start_time) * 1000
         )
+    
+    def _extract_citation(self, text: str) -> Optional[str]:
+        pattern = r'(L\.|R\.|D\.|A\.)?\s*(\d{1,3}(?:[-.]\d{1,3}){0,4})'
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            prefix = match.group(1) or "L"
+            num = match.group(2)
+            return f"{prefix}.{num}"
+        return None
 
-    # Construire le contexte à partir des PDF
-    context = "\n\n".join(
-        [f"[EXTRAIT {i+1}]\n{d.page_content}" for i, d in enumerate(docs)]
-    )
 
-    prompt = (
-        "Tu es un assistant juridique pédagogique français. "
-        "Tu réponds de manière synthétique en t'appuyant UNIQUEMENT sur le contexte fourni, "
-        "qui provient de textes de loi (Code du travail, Code civil, supports de cours). "
-        "Si une information n'apparaît pas dans le contexte, tu expliques que tu ne peux pas la garantir.\n\n"
-        f"CONTEXTE :\n{context}\n\n"
-        f"QUESTION : {question}\n\n"
-        "RÉPONSE :"
-    )
+_rag_chain = None
 
-    # Appel au modèle HuggingFace
-    result = llm(
-        prompt,
-        max_new_tokens=400,
-        num_return_sequences=1
-    )[0]["generated_text"]
 
-    return result, docs
+def get_rag_chain() -> ComplianceRAGChain:
+    global _rag_chain
+    if _rag_chain is None:
+        _rag_chain = ComplianceRAGChain()
+    return _rag_chain

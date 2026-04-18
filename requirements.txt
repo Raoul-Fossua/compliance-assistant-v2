@@ -1,15 +1,31 @@
-python-dotenv
+# LangChain (versions compatibles)
+langchain==0.1.0
+langchain-community==0.0.10
+langchain-core==0.1.0
 
-streamlit
+# Vector Store
+chromadb==0.4.22
 
-langchain
-langchain-community
-langchain-openai
-langchain-text-splitters
+# Embeddings
+sentence-transformers==2.2.2
 
-chromadb
-openai
+# LLM local
+transformers==4.36.0
+torch==2.1.0
+accelerate==0.25.0
 
-tavily-python
-requests
-pypdf
+# Documents
+pypdfium2==4.0.0
+pypdf==3.17.0
+
+# Utilitaires
+python-dotenv==1.0.0
+requests==2.31.0
+tenacity==8.2.3
+
+# Interface
+streamlit==1.29.0
+
+# Data
+numpy==1.24.3
+pydantic==2.5.0

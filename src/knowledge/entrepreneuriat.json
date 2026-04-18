@@ -1,0 +1,136 @@
+{
+  "auto_entrepreneur": {
+    "conditions": {
+      "age": "18 ans minimum (ou 16 ans avec émancipation)",
+      "nationalite": "ressortissant UE ou titre de séjour valide",
+      "activites_eligible": [
+        "prestations de services (marketing digital, consulting)",
+        "activites commerciales",
+        "activites liberales"
+      ],
+      "plafonds_2026": {
+        "prestations_services": 77700,
+        "commerce": 188700,
+        "liberale": 77700
+      }
+    },
+    "formalites": {
+      "etapes": [
+        "1. Choisir son activité (marketing digital = prestations de services)",
+        "2. Déclarer son début d'activité sur le guichet unique (urssaf.fr)",
+        "3. Choisir le régime fiscal (micro-entreprise par défaut)",
+        "4. Obtenir un numéro SIRET (sous 15 jours)",
+        "5. Déclarer son chiffre d'affaires chaque mois ou trimestre"
+      ],
+      "url": "https://www.auto-entrepreneur.urssaf.fr",
+      "delai": "15 jours pour obtenir le numéro SIRET"
+    },
+    "cotisations_sociales": {
+      "prestations_services": 21.2,
+      "commerce": 12.3,
+      "liberale": 21.2,
+      "exoneration_1ere_annee": true
+    },
+    "fiscalite": {
+      "taux": "Option versement libératoire (2.2% pour services) + IR progressif",
+      "plafond_versement_libératoire": 77700,
+      "exoneration_TVA": "Si CA < 39100€ (services) ou 101000€ (commerce)"
+    },
+    "droits": {
+      "aides": [
+        "ACRE (Aide à la Création ou Reprise d'Entreprise) - exonération partielle 1ère année",
+        "ARCE (Aide à la Reprise ou Création d'Entreprise) pour chômeurs",
+        "Nouveau dispositif 2026 : prime de 5000€ pour les auto-entrepreneurs du numérique"
+      ],
+      "protection_sociale": "Couverture santé et retraite proportionnelle au CA"
+    }
+  },
+  "marketing_digital": {
+    "activites_typiques": [
+      "Gestion de campagnes publicitaires (Google Ads, Meta Ads)",
+      "Création de contenu pour réseaux sociaux",
+      "Stratégie SEO / référencement naturel",
+      "Email marketing et newsletter",
+      "Community management",
+      "Création de sites web (WordPress, Webflow)",
+      "Conseil en stratégie marketing"
+    ],
+    "obligations_legales": {
+      "devis": "Obligatoire pour les prestations > 100€ TTC",
+      "facture": "Obligatoire pour toute prestation",
+      "CGV": "À fournir avant toute prestation",
+      "RGPD": "Si collecte de données personnelles"
+    },
+    "recommandations": {
+      "statut": "Auto-entrepreneur recommandé pour CA < 77700€",
+      "compte_pro": "Ouvrir un compte bancaire dédié",
+      "assurance": "Assurance responsabilité civile professionnelle (optionnelle mais recommandée)",
+      "formation": "Bilan de compétences ou formation en gestion d'entreprise"
+    }
+  },
+  "demarche_simple": {
+    "jeune_diplome_marketing": {
+      "titre": "Devenir auto-entrepreneur en marketing digital - Guide en 5 étapes",
+      "etapes": [
+        {
+          "numero": 1,
+          "titre": "Vérifier son éligibilité",
+          "actions": [
+            "✅ Avoir 18 ans ou plus",
+            "✅ Résider en France",
+            "✅ Choisir son activité principale (ex: conseil en marketing digital)"
+          ]
+        },
+        {
+          "numero": 2,
+          "titre": "Estimer son potentiel de chiffre d'affaires",
+          "actions": [
+            "📊 CA annuel prévisionnel = tarif horaire (40-80€) x heures travaillées",
+            "💰 Seuil à ne pas dépasser : 77 700€ pour les services",
+            "💡 Si CA > 77700€, envisager une EURL ou SASU"
+          ]
+        },
+        {
+          "numero": 3,
+          "titre": "Déclarer son début d'activité",
+          "actions": [
+            "🌐 Se connecter sur le guichet unique : https://formalites.entreprises.gouv.fr",
+            "📝 Choisir 'micro-entrepreneur' comme statut",
+            "🏷️ Sélectionner le code APE 7022Z (Conseil pour les affaires)",
+            "📄 Télécharger l'attestation de début d'activité (numéro SIRET)"
+          ]
+        },
+        {
+          "numero": 4,
+          "titre": "Démarrer son activité",
+          "actions": [
+            "📧 Créer un email professionnel",
+            "🌍 Créer un site vitrine (Portfolio)",
+            "📱 Être actif sur LinkedIn",
+            "🤝 Contacter ses premiers clients (réseau, anciens stages)"
+          ]
+        },
+        {
+          "numero": 5,
+          "titre": "Gérer son administration",
+          "actions": [
+            "📅 Déclarer son CA chaque mois ou trimestre sur autoentrepreneur.urssaf.fr",
+            "💰 Payer ses cotisations sociales (21.2% du CA)",
+            "🧾 Facturer ses clients avec un outil simple (ex: Facture.net)",
+            "🏦 Utiliser un compte bancaire dédié"
+          ]
+        }
+      ],
+      "aides_financieres": [
+        "💶 ACRE : exonération de 50% des cotisations la 1ère année",
+        "💶 NACRE (Nouvel Accompagnement pour la Création et Reprise d'Entreprise) : prêt à taux 0",
+        "💶 Bourse French Tech : jusqu'à 30 000€ pour les projets innovants"
+      ],
+      "ressources_gratuites": [
+        "📚 Chambre des métiers : formations gratuites pour auto-entrepreneurs",
+        "📚 Bpifrance Création : guides et webinaires",
+        "📚 Réseau Initiative France : accompagnement par des chefs d'entreprise"
+      ]
+    }
+  }
+}

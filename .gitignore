@@ -1,0 +1,30 @@
+# Environnement virtuel
+.venv/
+venv/
+env/
+ENV/
+
+# Base vectorielle
+chroma_db/
+metadata/
+cache/
+
+# Fichiers Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Fichiers de configuration sensibles
+.env
+
+# Fichiers volumineux
+*.pdf
+data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
