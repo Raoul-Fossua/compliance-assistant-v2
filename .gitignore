@@ -33,3 +33,4 @@ metadata/
 cache/
 chroma_db/
 .env
+.env
