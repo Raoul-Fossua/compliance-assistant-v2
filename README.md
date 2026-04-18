@@ -97,6 +97,30 @@ compliance-assistant/
 
 Cet assistant fournit des informations générales à partir de textes de loi. Il ne remplace pas un avocat ou un juriste professionnel.
 
+## 🔧 Première utilisation après clonage
+
+Après avoir cloné le dépôt, vous devez reconstruire la base vectorielle localement :
+
+```bash
+python src/rag/ingest_comlex.py
 ---
+
+
+---
+
+## 🚀 Commandes finales à exécuter
+
+```bash
+# 1. Exclure chroma_db
+git rm -r --cached chroma_db/
+echo "chroma_db/" >> .gitignore
+
+# 2. Commiter
+git add .gitignore
+git commit -m "Exclure la base vectorielle locale"
+
+# 3. Pousser
+git push origin main
+
 
 *Dernière mise à jour : 2026-04-18*
