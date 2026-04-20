@@ -1,8 +1,3 @@
-# Créer le dossier (s'il n'existe pas)
-mkdir -p .github/workflows
-
-# Créer le fichier avec le contenu (EN ANGLAIS)
-cat > .github/workflows/main.yml << 'EOF'
 name: Build and Push Docker Image
 
 on:
@@ -33,4 +28,3 @@ jobs:
         run: |
           docker push rfossuatindo/compliance-assistant:latest
           docker push rfossuatindo/compliance-assistant:${{ github.run_number }}
-EOF
