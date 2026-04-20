@@ -124,6 +124,14 @@ git push origin main
 
 
 [![GitHub stars](https://img.shields.io/github/stars/Raoul-Fossua/compliance-assistant-v2)](https://github.com/Raoul-Fossua/compliance-assistant-v2/stargazers)
+
 [![Docker Pulls](https://img.shields.io/docker/pulls/rfossuatindo/compliance-assistant)](https://hub.docker.com/r/rfossuatindo/compliance-assistant)
+
+## 📊 Statut du projet
+
+[![CI/CD Pipeline](https://github.com/Raoul-Fossua/compliance-assistant-v2/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Raoul-Fossua/compliance-assistant-v2/actions/workflows/ci-cd.yml)
+[![Docker Pulls](https://img.shields.io/docker/pulls/rfossuatindo/compliance-assistant)](https://hub.docker.com/r/rfossuatindo/compliance-assistant)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Raoul-Fossua/compliance-assistant-v2)](https://github.com/Raoul-Fossua/compliance-assistant-v2)
+[![GitHub stars](https://img.shields.io/github/stars/Raoul-Fossua/compliance-assistant-v2)](https://github.com/Raoul-Fossua/compliance-assistant-v2)
 
 *Dernière mise à jour : 2026-04-18*
