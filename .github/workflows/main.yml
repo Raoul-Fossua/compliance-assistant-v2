@@ -1,0 +1,36 @@
+# Créer le dossier (s'il n'existe pas)
+mkdir -p .github/workflows
+
+# Créer le fichier avec le contenu
+cat > .github/workflows/main.yml << 'EOF'
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t rfossuatindo/compliance-assistant:latest .
+          docker tag rfossuatindo/compliance-assistant:latest rfossuatindo/compliance-assistant:${{ github.run_number }}
+
+      - name: Push Docker image
+        run: |
+          docker push rfossuatindo/compliance-assistant:latest
+          docker push rfossuatindo/compliance-assistant:${{ github.run_number }}
+EOF
