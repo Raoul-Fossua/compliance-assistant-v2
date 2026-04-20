@@ -1,7 +1,7 @@
 # Créer le dossier (s'il n'existe pas)
 mkdir -p .github/workflows
 
-# Créer le fichier avec le contenu
+# Créer le fichier avec le contenu (EN ANGLAIS)
 cat > .github/workflows/main.yml << 'EOF'
 name: Build and Push Docker Image
 
