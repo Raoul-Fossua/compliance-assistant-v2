@@ -135,3 +135,4 @@ git push origin main
 [![GitHub stars](https://img.shields.io/github/stars/Raoul-Fossua/compliance-assistant-v2)](https://github.com/Raoul-Fossua/compliance-assistant-v2)
 
 *Dernière mise à jour : 2026-04-18*
+# v1.0.0
