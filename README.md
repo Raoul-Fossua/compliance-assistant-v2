@@ -124,5 +124,6 @@ git push origin main
 
 
 [![GitHub stars](https://img.shields.io/github/stars/Raoul-Fossua/compliance-assistant-v2)](https://github.com/Raoul-Fossua/compliance-assistant-v2/stargazers)
+[![Docker Pulls](https://img.shields.io/docker/pulls/rfossuatindo/compliance-assistant)](https://hub.docker.com/r/rfossuatindo/compliance-assistant)
 
 *Dernière mise à jour : 2026-04-18*
