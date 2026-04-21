@@ -1,4 +1,3 @@
-cat > .github/workflows/main.yml << 'EOF'
 name: Build and Push Docker Image
 
 on:
@@ -29,4 +28,3 @@ jobs:
         run: |
           docker push rfossuatindo/compliance-assistant:latest
           docker push rfossuatindo/compliance-assistant:${{ github.run_number }}
-EOF
