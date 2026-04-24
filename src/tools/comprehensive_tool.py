@@ -335,3 +335,84 @@ def get_comprehensive_tool():
     if _comprehensive_tool is None:
         _comprehensive_tool = ComprehensiveTool()
     return _comprehensive_tool
+
+    # Base d'articles du Code de commerce
+    ARTICLES = {
+        "L.225-102-4": {
+            "titre": "Devoir de vigilance des sociétés mères",
+            "contenu": """I. - Les sociétés qui emploient, à la clôture de deux exercices consécutifs, 
+un nombre d'au moins cinq mille salariés en France, ou un nombre d'au moins dix mille 
+salariés dans le monde, et dont le chiffre d'affaires net ou le total de bilan, 
+calculé sur la même période, dépasse certains seuils, établissent et mettent en œuvre 
+un plan de vigilance.
+
+II. - Le plan comporte les mesures de vigilance raisonnable propres à identifier les risques 
+et à prévenir les atteintes graves envers les droits humains et les libertés fondamentales, 
+la santé et la sécurité des personnes ainsi que l'environnement.
+
+III. - Le plan et le rapport de mise en œuvre sont rendus publics et déposés au greffe.""",
+            "source": "Code de commerce, livre II, titre II, chapitre V"
+        },
+        "L.227-9-1": {
+            "titre": "Commissaire aux comptes dans les SAS",
+            "contenu": """Dans les sociétés par actions simplifiées, le contrôle des comptes est exercé 
+par un ou plusieurs commissaires aux comptes dans les conditions prévues à l'article L. 227-9.
+La nomination d'un commissaire aux comptes est obligatoire lorsque la société dépasse les seuils 
+fixés par décret en Conseil d'État pour deux exercices consécutifs.""",
+            "source": "Code de commerce, livre II, titre II, chapitre VII"
+        },
+        "L.233-16": {
+            "titre": "Comptes consolidés",
+            "contenu": """Les sociétés qui contrôlent exclusivement ou conjointement une ou plusieurs entreprises 
+sont tenues d'établir et de publier des comptes consolidés ainsi qu'un rapport sur la gestion du groupe.
+Cette obligation s'applique aux sociétés qui dépassent certains seuils fixés par décret.""",
+            "source": "Code de commerce, livre II, titre III, chapitre III"
+        }
+    }
+    
+    def _answer_article(self, query: str) -> AssistantResponse:
+        """Recherche et répond sur un article du Code de commerce"""
+        # Extraire la référence d'article
+        match = re.search(r'([LAD]\.?\s*\d{1,3}(?:[-.]\d{1,3}){0,2})', query, re.IGNORECASE)
+        if not match:
+            return AssistantResponse(
+                self._answer_general().answer,
+                confidence=0.5,
+                category="article"
+            )
+        
+        article_ref = match.group(1).replace(' ', '').upper()
+        
+        # Chercher l'article dans la base
+        if article_ref in self.ARTICLES:
+            article = self.ARTICLES[article_ref]
+            answer = f"""
+## 📜 **Article {article_ref}** - {article['titre']}
+
+{article['contenu']}
+
+---
+**Source :** {article['source']}
+**Mise à jour :** Code de commerce édition 2026-04-15
+"""
+            return AssistantResponse(answer, confidence=0.95, category="article")
+        else:
+            # Article non trouvé - proposer une recherche
+            return AssistantResponse(
+                f"""
+## ❓ Article {article_ref} non trouvé
+
+Je ne dispose pas encore du texte complet de l'article {article_ref} dans ma base.
+
+### 📚 Articles disponibles actuellement :
+- L.225-102-4 : Devoir de vigilance
+- L.227-9-1 : Commissaire aux comptes
+- L.233-16 : Comptes consolidés
+
+### 💡 Suggestions :
+- Vérifiez la référence (ex: L.225-102-4)
+- Consultez le Code sur [Légifrance](https://www.legifrance.gouv.fr/codes/id/LEGITEXT000005634379/)
+""",
+                confidence=0.6,
+                category="article"
+            )
