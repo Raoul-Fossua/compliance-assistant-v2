@@ -1,6 +1,5 @@
 """
 Tools pour l'assistant de conformité commerciale
-Exporte tous les outils disponibles pour l'agent et le routeur
 """
 
 from .tools import (
@@ -13,21 +12,24 @@ from .tools import (
     get_article_context
 )
 
+# Importer le nouvel outil complet s'il existe
+try:
+    from .comprehensive_tool import get_comprehensive_tool, ComprehensiveTool
+    COMPREHENSIVE_AVAILABLE = True
+except ImportError:
+    COMPREHENSIVE_AVAILABLE = False
+    print("Comprehensive tool not available")
+
 from .rag_tool import (
     get_rag_tool,
     RAGTool,
-    RAGResult,
-    rag_search,
-    rag_get_article,
-    rag_search_articles
+    RAGResult
 )
 
 from .judilibre_tool import (
     get_judilibre_tool,
     JudilibreTool,
-    JurisprudenceDecision,
-    search_jurisprudence,
-    search_jurisprudence_text
+    JurisprudenceDecision
 )
 
 from .entrepreneur_tool import (
@@ -43,7 +45,6 @@ from .metier_tool import (
 )
 
 __all__ = [
-    # Tools principaux
     "get_tools_instance",
     "ComplianceTools",
     "ThresholdResult",
@@ -51,29 +52,18 @@ __all__ = [
     "resolve_citation",
     "compute_threshold",
     "get_article_context",
-    
-    # RAG Tool
     "get_rag_tool",
     "RAGTool",
     "RAGResult",
-    "rag_search",
-    "rag_get_article",
-    "rag_search_articles",
-    
-    # Judilibre Tool
     "get_judilibre_tool",
     "JudilibreTool",
     "JurisprudenceDecision",
-    "search_jurisprudence",
-    "search_jurisprudence_text",
-    
-    # Entrepreneur Tool
     "get_entrepreneur_tool",
     "EntrepreneurTool",
     "EntrepreneurResponse",
-    
-    # Métier Tool
     "get_metier_tool",
     "MetierTool",
-    "MetierResponse"
+    "MetierResponse",
+    "get_comprehensive_tool",
+    "ComprehensiveTool"
 ]
